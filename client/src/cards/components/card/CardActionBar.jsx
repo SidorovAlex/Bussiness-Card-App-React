@@ -50,7 +50,7 @@ const CardActionBar = ({ cardId, onDelete, onLike, cardUserId, cardLikes }) => {
       >
         <Box>
 
-          {(user && user._id === cardUserId || user?.isAdmin) && (
+          {((user && ((user._id === cardUserId) || user?.isAdmin)) ) && (
             <IconButton
               aria-label="delete card"
               onClick={() => handleDialog("open")}

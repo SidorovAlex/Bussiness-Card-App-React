@@ -2,10 +2,11 @@ import { useCallback, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { useUser } from "../providers/UserProvider";
 import useAxios from "../../cards/hooks/useAxios";
-import { login, signup } from "../services/usersApiService";
+import { getUserDetails, login, signup } from "../services/usersApiService";
 import { getUser, removeToken, setTokenInLocalStorage } from "../services/localStorageService";
 import ROUTES from "../../routes/routesModel";
 import normalizeUser from "../helpers/normalization/normalizeUser";
+
 
 const useUsers = () => {
     const [users, setUsers] = useState(null);
@@ -60,6 +61,17 @@ const useUsers = () => {
         }, [requestStatus, handleLogin]
     );
 
+    const getUserFromServer = async (userId) =>{
+        try {
+            requestStatus(true, null, users, user);
+            const userFromServer = await getUserDetails(userId);
+            requestStatus(false,null,users,user)
+            return userFromServer;
+        }catch (error){
+            requestStatus(false, error,users,user);
+        }
+    }
+
     const value = useMemo(
         () => ({
             users, isLoading, error, user,
@@ -67,6 +79,7 @@ const useUsers = () => {
 
     return {
         handleLogin,
+        getUserFromServer,
         handleLogout,
         handleSignup,
         users,
