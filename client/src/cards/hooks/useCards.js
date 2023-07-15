@@ -7,6 +7,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import ROUTES from "../../routes/routesModel";
 import { useUser } from "../../users/providers/UserProvider";
 
+
 const useCards = () => {
     const [cards, setCards] = useState(null);
     const [card, setCard] = useState(null);
@@ -54,6 +55,7 @@ const useCards = () => {
         }
     }
 
+    
     const handleGetCard = async (id) => {
         try {
             setPending(true);

@@ -6,8 +6,9 @@ import { getUserDetails, getUsersDetail, login, signup } from "../services/users
 import { getUser, removeToken, setTokenInLocalStorage } from "../services/localStorageService";
 import ROUTES from "../../routes/routesModel";
 import normalizeUser from "../helpers/normalization/normalizeUser";
+import axios from "axios";
 
-
+const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8181';
 const useUsers = () => {
     const [users, setUsers] = useState(null);
     const [isLoading, setLoading] = useState(true);
@@ -72,6 +73,27 @@ const useUsers = () => {
         }
     }
 
+    const getUser = async (id) => {
+        try {
+            const { data } = await axios.get(`${apiUrl}/user/${id}`);
+            return data;
+        } catch (error) {
+            return Promise.reject(error.message);
+        }
+    }
+
+
+    const handleGetuser = async (id) => {
+        try {
+            isLoading(true);
+            const card = await getUser(id);
+            requestStatus(false, null, null, card);
+            return card;
+        } catch (error) {
+            requestStatus(false, error, null);
+        }
+    }
+
     const value = useMemo(
         () => ({
             users, isLoading, error, user,
@@ -80,6 +102,7 @@ const useUsers = () => {
     return {
         handleLogin,
         handleGetUsers,
+        handleGetuser,
         handleLogout,
         handleSignup,
         users,
