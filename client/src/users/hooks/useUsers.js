@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { useUser } from "../providers/UserProvider";
 import useAxios from "../../cards/hooks/useAxios";
-import { getUserDetails, login, signup } from "../services/usersApiService";
+import { getUserDetails, getUsersDetail, login, signup } from "../services/usersApiService";
 import { getUser, removeToken, setTokenInLocalStorage } from "../services/localStorageService";
 import ROUTES from "../../routes/routesModel";
 import normalizeUser from "../helpers/normalization/normalizeUser";
@@ -12,6 +12,7 @@ const useUsers = () => {
     const [users, setUsers] = useState(null);
     const [isLoading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    
 
     const navigate = useNavigate();
 
@@ -61,14 +62,13 @@ const useUsers = () => {
         }, [requestStatus, handleLogin]
     );
 
-    const getUserFromServer = async (userId) =>{
+    const handleGetUsers = async () => {
         try {
-            requestStatus(true, null, users, user);
-            const userFromServer = await getUserDetails(userId);
-            requestStatus(false,null,users,user)
-            return userFromServer;
-        }catch (error){
-            requestStatus(false, error,users,user);
+            isLoading(true);
+            const cards = await getUsersDetail();
+            requestStatus(false, null, cards);
+        } catch (error) {
+            requestStatus(false, error, null);
         }
     }
 
@@ -79,7 +79,7 @@ const useUsers = () => {
 
     return {
         handleLogin,
-        getUserFromServer,
+        handleGetUsers,
         handleLogout,
         handleSignup,
         users,

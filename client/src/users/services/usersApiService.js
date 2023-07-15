@@ -29,3 +29,13 @@ export const getUserDetails = async userId => {
     }
     
 }
+
+export const getUsersDetail = async () => {
+    try {
+        const {data} = await axios.get(`${apiUrl}/users`);
+    return data;
+    }catch (error){
+        return Promise.reject(error.message);
+    }
+    
+}

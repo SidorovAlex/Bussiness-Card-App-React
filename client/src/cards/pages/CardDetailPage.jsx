@@ -25,14 +25,19 @@ const CardDetailPage = () => {
 
       <Grid container spacing={2}>
         <Grid item xs={12} md={8} alignSelf="center" mt={2}>
-          <h1>Company name: {card && card.title}</h1>
-          <h2>Our moto: {card && card.subtitle}</h2>
-          <p>Phone: {card && card.phone}</p>
-          <p>
+          <h1>Title: {card && card.title}</h1>
+          <h2>Subtitle: {card && card.subtitle}</h2>
+          <h3>Phone: {card && card.phone}</h3>
+          <h3>
             Adress:{' '}
             {card &&
-              `${card.address.city} ${card.address.street} ${card.address.houseNumber} ${card.address.country}  `}
-          </p>
+              `${card.address.city} ${card.address.street} ${card.address.houseNumber} ${card.address.country}`}
+          </h3>
+          <h3>
+            Email:{' '}
+            {card &&
+              `${card.email}`}
+          </h3>
         </Grid>
         <Grid
           item
