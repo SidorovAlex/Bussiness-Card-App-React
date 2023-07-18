@@ -16,7 +16,7 @@ export const UserProvider = ({ children }) => {
     }, [user]);
 
     const value = useMemo(
-        () => ({ user, setUser, token, setToken }),
+        () => ({ user, setUser, token, setToken}),
         [user, token]
     );
 

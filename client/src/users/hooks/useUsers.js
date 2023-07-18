@@ -2,18 +2,16 @@ import { useCallback, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { useUser } from "../providers/UserProvider";
 import useAxios from "../../cards/hooks/useAxios";
-import { getUserDetails, getUsersDetail, login, signup } from "../services/usersApiService";
-import { getUser, removeToken, setTokenInLocalStorage } from "../services/localStorageService";
+import { getUsers, login, signup } from "../services/usersApiService";
+import { getUser, getUserById, removeToken, setTokenInLocalStorage } from "../services/localStorageService";
 import ROUTES from "../../routes/routesModel";
 import normalizeUser from "../helpers/normalization/normalizeUser";
-import axios from "axios";
 
-const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8181';
 const useUsers = () => {
+   
     const [users, setUsers] = useState(null);
     const [isLoading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    
 
     const navigate = useNavigate();
 
@@ -66,33 +64,26 @@ const useUsers = () => {
     const handleGetUsers = async () => {
         try {
             isLoading(true);
-            const cards = await getUsersDetail();
-            requestStatus(false, null, cards);
+            const cards = await getUsers();
+            requestStatus(false, null, users);
         } catch (error) {
             requestStatus(false, error, null);
         }
     }
 
-    const getUser = async (id) => {
-        try {
-            const { data } = await axios.get(`${apiUrl}/user/${id}`);
-            return data;
-        } catch (error) {
-            return Promise.reject(error.message);
-        }
-    }
-
-
-    const handleGetuser = async (id) => {
+    
+    const handleGetUser = async (id) => {
         try {
             isLoading(true);
-            const card = await getUser(id);
-            requestStatus(false, null, null, card);
-            return card;
+            const user = await getUser(id);
+            requestStatus(false, null, null, user);
+            return user;
         } catch (error) {
             requestStatus(false, error, null);
         }
     }
+
+   
 
     const value = useMemo(
         () => ({
@@ -101,10 +92,10 @@ const useUsers = () => {
 
     return {
         handleLogin,
-        handleGetUsers,
-        handleGetuser,
         handleLogout,
         handleSignup,
+        handleGetUser,
+        handleGetUsers,
         users,
         isLoading,
         error,

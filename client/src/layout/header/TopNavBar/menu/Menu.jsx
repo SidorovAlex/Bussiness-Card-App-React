@@ -57,7 +57,7 @@ const Menu = ({ isOpen, onClose, anchorEl }) => {
           <>
             <MenuLink
               label="profile"
-              navigateTo={ROUTES.USER_PROFILE}
+              navigateTo={`${ROUTES.USER_PROFILE}/${user._id}`}
               onClick={onClose}
             />
             <MenuLink

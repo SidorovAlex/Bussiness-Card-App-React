@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import PageHeader from '../../components/PageHeader';
 import useCards from '../hooks/useCards';
 import { useEffect } from 'react';
-import Card from '../components/card/Card';
+
 
 const CardDetailPage = () => {
   const { id } = useParams();

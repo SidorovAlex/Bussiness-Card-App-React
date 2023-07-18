@@ -20,22 +20,29 @@ export const signup = async normalizedUser => {
     }
 }
 
-export const getUserDetails = async userId => {
+export const getUsers = async () => {
     try {
-        const {data} = await axios.get(`${apiUrl}/users/${userId}`);
-    return data;
-    }catch (error){
+        const { data } = await axios.get(`${apiUrl}/users`);
+        return data;
+    } catch (error) {
         return Promise.reject(error.message);
     }
-    
 }
 
-export const getUsersDetail = async () => {
+export const getUser = async (id) => {
     try {
-        const {data} = await axios.get(`${apiUrl}/users`);
-    return data;
-    }catch (error){
+        const { data } = await axios.get(`${apiUrl}/users/${id}`);
+        return data;
+    } catch (error) {
         return Promise.reject(error.message);
     }
-    
+}
+
+export const updateUser = async (id, user) => {
+    try {
+        const { data } = await axios.put(`${apiUrl}/users/${id}`, user);
+        return data;
+    } catch (error) {
+        return Promise.reject(error.message);
+    }
 }
