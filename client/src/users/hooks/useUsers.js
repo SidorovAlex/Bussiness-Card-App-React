@@ -2,8 +2,8 @@ import { useCallback, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { useUser } from "../providers/UserProvider";
 import useAxios from "../../cards/hooks/useAxios";
-import { getUsersApi, login, signup,getUserApi } from "../services/usersApiService";
-import { getUserById, removeToken, setTokenInLocalStorage ,getUser} from "../services/localStorageService";
+import { getUsersApi, login, signup } from "../services/usersApiService";
+import { removeToken, setTokenInLocalStorage ,getUser} from "../services/localStorageService";
 import ROUTES from "../../routes/routesModel";
 import normalizeUser from "../helpers/normalization/normalizeUser";
 

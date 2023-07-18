@@ -22,8 +22,6 @@ const UserDetailPage = () => {
     });
   }, []);
 
-   
-    console.log(userData)
 
   return (
     <Container>
