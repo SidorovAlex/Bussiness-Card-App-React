@@ -2,8 +2,8 @@ import { useCallback, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { useUser } from "../providers/UserProvider";
 import useAxios from "../../cards/hooks/useAxios";
-import { getUsers, login, signup } from "../services/usersApiService";
-import { getUser, getUserById, removeToken, setTokenInLocalStorage } from "../services/localStorageService";
+import { getUsersApi, login, signup,getUserApi } from "../services/usersApiService";
+import { getUserById, removeToken, setTokenInLocalStorage ,getUser} from "../services/localStorageService";
 import ROUTES from "../../routes/routesModel";
 import normalizeUser from "../helpers/normalization/normalizeUser";
 
@@ -42,6 +42,7 @@ const useUsers = () => {
     }, [navigate, requestStatus]);
 
     const handleLogout = useCallback(() => {
+        navigate(ROUTES.CARDS);
         removeToken();
         setUser(null);
     }, [setUser]);
@@ -64,8 +65,9 @@ const useUsers = () => {
     const handleGetUsers = async () => {
         try {
             isLoading(true);
-            const cards = await getUsers();
+            const users = await getUsersApi();
             requestStatus(false, null, users);
+            return users;
         } catch (error) {
             requestStatus(false, error, null);
         }

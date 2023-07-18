@@ -57,6 +57,8 @@ const CardDetailPage = () => {
             src={card && card.image.url}
           />
         </Grid>
+
+        
       </Grid>
     </Container>
   );

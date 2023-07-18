@@ -20,7 +20,7 @@ export const signup = async normalizedUser => {
     }
 }
 
-export const getUsers = async () => {
+export const getUsersApi = async () => {
     try {
         const { data } = await axios.get(`${apiUrl}/users`);
         return data;
@@ -29,7 +29,7 @@ export const getUsers = async () => {
     }
 }
 
-export const getUser = async (id) => {
+export const getUserApi = async (id) => {
     try {
         const { data } = await axios.get(`${apiUrl}/users/${id}`);
         return data;

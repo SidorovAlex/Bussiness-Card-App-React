@@ -6,6 +6,7 @@ import { useUser } from "../../../../users/providers/UserProvider";
 import useUsers from "../../../../users/hooks/useUsers";
 import MenuLink from "./MenuLink";
 
+
 const Menu = ({ isOpen, onClose, anchorEl }) => {
   const { user } = useUser();
   const { handleLogout } = useUsers();
@@ -13,6 +14,7 @@ const Menu = ({ isOpen, onClose, anchorEl }) => {
   const onLogout = () => {
     handleLogout();
     onClose();
+    
   };
 
   return (
