@@ -4,7 +4,7 @@ import { getUserApi } from '../services/usersApiService';
 import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import ROUTES from '../../routes/routesModel';
-import normalizeUser from"../helpers/normalization/normalizeUser.js"
+import normalizeUser from '../helpers/normalization/normalizeUser.js';
 import initialSignupForm from '../helpers/initialForms/initialSignupForm';
 import useForm from '../../forms/hooks/useForm';
 import useUsers from '../hooks/useUsers';
@@ -15,55 +15,48 @@ import Form from '../../forms/components/Form';
 
 
 const EditeUserPage = () => {
-  const {user} = useUser();
+  const { user } = useUser();
   const [userData, setUserData] = useState(null);
-  const {handleEditUser} = useUsers();
-
-  if(!user) Navigate(ROUTES.CARDS)
-  
-  
+  const { handleEditUser } = useUsers();
 
 
-  const { value, ...rest } = useForm(
-    initialSignupForm,
-    signupSchema,
-    () => {
-        handleEditUser(userData._id, {
-            ...normalizeUser(userData.formData),
-            isAdmin: user.isAdmin,
-        });
-    }
-);
-
-useEffect(() => {
-  getUserApi(user._id).then((data) => {
-        setUserData(data);
-        if (data._id !== user._id) return Navigate(ROUTES.CARDS);
-        const modeledUser = userModelMap(data);
-        rest.setFormData(modeledUser);
+  const { value, ...rest } = useForm(initialSignupForm, signupSchema, () => {
+    handleEditUser(userData._id, {
+      ...normalizeUser(value.formData),
+      isAdmin: userData.isAdmin,
     });
-}, []);
+  });
 
-if (!user) return <Navigate replace to={ROUTES.CARDS} />;
+  useEffect(() => {
+    getUserApi(user._id).then((data) => {
+      setUserData(data);
+      if (data._id !== user._id) return Navigate(ROUTES.CARDS);
+      const modeledUser = userModelMap(data);
+      rest.setFormData(modeledUser);
+    });
+  }, []);
 
-
-return (
+  if (!user) return <Navigate replace to={ROUTES.CARDS} />;
+  
+  console.log(userData);
+  return (
     <Container
       sx={{
         paddingTop: 8,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
       }}
     >
       <Form
-        onSubmit={rest.onSubmit}
-        onChange={rest.validateForm}
-        onReset={rest.handleReset}
+        onSubmit={rest.onSubmit} 
+        onChange={rest.validateForm} 
+        onReset={rest.handleReset} 
         styles={{ maxWidth: "800px" }}
         title="register"
         to={ROUTES.CARDS}
       >
+        
         <Input
           name="first"
           label="first name"
@@ -185,25 +178,28 @@ return (
           sm={6}
           required={false}
         />
+
         {!user.isBusiness && !user.isAdmin && (
-            <Grid item>
-            <FormControlLabel 
-              onChange={(e) => rest.setFormData({
-                ...value.formData,
-                isBusiness: !!e.target.checked,
-              })}
+          <Grid item>
+            <FormControlLabel
+              onChange={(e) =>
+                rest.setFormData({
+                  ...value.formData,
+                  isBusiness: !!e.target.checked,
+                })
+              }
               name="isBusiness"
-              control={<Checkbox value={value.formData.isBusiness} color="primary" />}
+              control={
+                <Checkbox value={value.formData.isBusiness} color="primary" />
+              }
               label="Signup as Business"
-              >
-            </FormControlLabel>
+            ></FormControlLabel>
           </Grid>
         )}
-        
+       
       </Form>
     </Container>
-);
-
+  );
 };
 
 export default EditeUserPage;
