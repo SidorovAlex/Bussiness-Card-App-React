@@ -10,7 +10,6 @@ import useForm from '../../forms/hooks/useForm';
 import useUsers from '../hooks/useUsers';
 import signupSchema from '../models/joi-schema/signupSchema';
 import userModelMap from '../helpers/normalization/userModelMap';
-import CardForm from '../../cards/components/CardForm';
 import Input from '../../forms/components/Input';
 import Form from '../../forms/components/Form';
 
@@ -18,7 +17,7 @@ import Form from '../../forms/components/Form';
 const EditeUserPage = () => {
   const {user} = useUser();
   const [userData, setUserData] = useState(null);
-  const {handleEditUser,handleGetUser} = useUsers();
+  const {handleEditUser} = useUsers();
 
   if(!user) Navigate(ROUTES.CARDS)
   
@@ -46,27 +45,8 @@ useEffect(() => {
 }, []);
 
 if (!user) return <Navigate replace to={ROUTES.CARDS} />;
-const inputFactory = (name, label, required, type) => ({
-    name,
-    label,
-    required,
-    type,
-});
-const mapInputs = [
-    inputFactory("first", "first name", true, "text"),
-    inputFactory("middle", "middle name", false, "text"),
-    inputFactory("last", "last name", true, "text"),
-    inputFactory("phone", "phone", true, "phone"),
-    inputFactory("email", "email", true, "email"),
-    inputFactory("url", "image url", false, "text"),
-    inputFactory("alt", "image alt", false, "text"),
-    inputFactory("state", "state", false, "text"),
-    inputFactory("country", "country", true, "text"),
-    inputFactory("city", "city", true, "text"),
-    inputFactory("street", "street", true, "text"),
-    inputFactory("houseNumber", "houseNumber", true, "number"),
-    inputFactory("zip", "zip", false, "number"),
-];
+
+
 return (
     <Container
       sx={{

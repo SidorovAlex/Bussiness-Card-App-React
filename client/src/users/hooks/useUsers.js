@@ -119,6 +119,7 @@ const useUsers = () => {
         isLoading,
         error,
         user,
+        value,
     }
 };
 
