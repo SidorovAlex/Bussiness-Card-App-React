@@ -38,7 +38,7 @@ const EditeUserPage = () => {
 
   if (!user) return <Navigate replace to={ROUTES.CARDS} />;
   
-  console.log(userData);
+  
   return (
     <Container
       sx={{
