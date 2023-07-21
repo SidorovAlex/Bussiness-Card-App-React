@@ -1,2 +1,2 @@
-# bcard-typescript-demo
+# Bussiness card app
  
