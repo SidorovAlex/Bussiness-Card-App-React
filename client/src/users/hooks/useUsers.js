@@ -2,10 +2,11 @@ import { useCallback, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { useUser } from "../providers/UserProvider";
 import useAxios from "../../cards/hooks/useAxios";
-import { getUsersApi, login, signup } from "../services/usersApiService";
+import { getUsersApi, login, signup, updateUser } from "../services/usersApiService";
 import { removeToken, setTokenInLocalStorage ,getUser} from "../services/localStorageService";
 import ROUTES from "../../routes/routesModel";
 import normalizeUser from "../helpers/normalization/normalizeUser";
+import { useSnackbar } from "../../providers/SnackbarProvider";
 
 const useUsers = () => {
    
@@ -16,6 +17,8 @@ const useUsers = () => {
     const navigate = useNavigate();
 
     const { user, setUser, setToken } = useUser();
+
+    const snack = useSnackbar();
 
     useAxios();
 
@@ -85,6 +88,19 @@ const useUsers = () => {
         }
     }
 
+    const handleEditUser = useCallback(
+        async (id, userFormClient) => {
+          try {
+            await updateUser(id, userFormClient);
+            snack("you update the user successfully", "success");
+            navigate(ROUTES.CARDS);
+          } catch (error) {
+            requestStatus(false, error, null);
+          }
+        },
+        [requestStatus, navigate]
+      );
+
    
 
     const value = useMemo(
@@ -94,6 +110,7 @@ const useUsers = () => {
 
     return {
         handleLogin,
+        handleEditUser,
         handleLogout,
         handleSignup,
         handleGetUser,
@@ -102,6 +119,7 @@ const useUsers = () => {
         isLoading,
         error,
         user,
+        value,
     }
 };
 
